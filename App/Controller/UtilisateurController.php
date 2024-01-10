@@ -76,7 +76,6 @@ class UtilisateurController extends Utilisateur{
                 $this->setMail($mail);
                 //récupérer le compte utilisateur ou false
                 $recup = $this->getUtilisateurByMail();
-
                 //test si le compte existe
                 if($recup){
                     //mot de passe BDD
