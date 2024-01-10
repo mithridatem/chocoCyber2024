@@ -21,6 +21,9 @@
         case '/choco2024/utilisateur/add':
             $utilisateurController->addUtilisateur();
             break;
+        case '/choco2024/utilisateur/connexion':
+            $utilisateurController->connexionUtilisateur();
+            break;
         default:
             $homeController->get404();
             break;

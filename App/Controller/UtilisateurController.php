@@ -65,4 +65,49 @@ class UtilisateurController extends Utilisateur{
         Template::render('navbar.php', 'Inscription', 'vueAddUser.php', 'footer.php', 
         $error, [], ['main.css']);
     }
+    public function connexionUtilisateur(): void {
+        $error = "";
+        //test si le bouton est cliqué
+        if(isset($_POST["submit"])){
+            //test si les champs sont bien remplis
+            if(!empty($_POST["mail_utilisateur"])AND !empty($_POST["password_utilisateur"])){
+                
+                $mail = Utilitaire::cleanInput($_POST["mail_utilisateur"]);
+                $this->setMail($mail);
+                //récupérer le compte utilisateur ou false
+                $recup = $this->getUtilisateurByMail();
+
+                //test si le compte existe
+                if($recup){
+                    //mot de passe BDD
+                    $hash = $recup->getPassword();
+                    //password formulaire
+                    $password = Utilitaire::cleanInput($_POST["password_utilisateur"]);
+                    //test si le mot de passe est valide
+                    if(password_verify($password, $hash)){
+                        //créer une session
+                        $_SESSION["connected"] = true;
+                        $_SESSION["nom"] = $recup->getNom();
+                        $_SESSION["prenom"] = $recup->getPrenom();
+                        $_SESSION["image"] = $recup->getImage();
+                        $_SESSION["id"] = $recup->getId();
+                        $error = "Connecté";
+                    }
+                    //test si le password est invalide
+                    else {
+                        $error = "Les informations de connexion sont invalides";
+                    }
+                }
+                //test si le compte n'existe pas
+                else{
+                    $error = "Les informations de connexion sont invalides";
+                }
+            }
+            else{
+                $error = "Veuillez remplir tous les champs du formulaire";
+            }
+        }
+        Template::render('navbar.php', 'Connexion', 'vueConnexion.php', 'footer.php', 
+        $error, [], ['main.css']);
+    }
 }
