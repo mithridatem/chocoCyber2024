@@ -15,26 +15,42 @@ class UtilisateurController extends Utilisateur{
             !empty($_POST["confirm_password"])){
                 //tester si les 2 mots de passe correspondent
                 if($_POST["password_utilisateur"]==$_POST["confirm_password"]){
-                    //Hasher le mot de passe
-                    $hash = password_hash(Utilitaire::cleanInput($_POST["password_utilisateur"]),PASSWORD_DEFAULT);
-                    //Nettoyer les entrées du fomulaire
-                    $nom = Utilitaire::cleanInput($_POST["nom_utilisateur"]);
-                    $prenom = Utilitaire::cleanInput($_POST["prenom_utilisateur"]);
                     $mail = Utilitaire::cleanInput($_POST["mail_utilisateur"]);
-                    $image = './public/asset/images/defaut.png';
-                    //setter les valeurs dans l'objet Utilisateur
-                    $this->setNom($nom);
-                    $this->setPrenom($prenom);
                     $this->setMail($mail);
-                    $this->setPassword($hash);
-                    $this->setImage($image);
-                    $this->getRole()->setId(1);
-                    $recup = $this->getUtilisateurByMail();
-                    dd($recup);
-                    //ajouter en bdd
-                    $this->insertUtilisateur();
-                    //afficher un message
-                    $error = "Le compte a bien été ajouté en BDD";
+                    //test si le compte n'existe pas
+                    if(!$this->getUtilisateurByMail()){
+                        //Hasher le mot de passe
+                        $hash = password_hash(Utilitaire::cleanInput($_POST["password_utilisateur"]),PASSWORD_DEFAULT);
+                        //Nettoyer les entrées du fomulaire
+                        $nom = Utilitaire::cleanInput($_POST["nom_utilisateur"]);
+                        $prenom = Utilitaire::cleanInput($_POST["prenom_utilisateur"]);
+                        $image = './public/asset/images/defaut.png';
+                        //test si l'utilisateur à importé un fichier
+                        if(!empty($_FILES["image_utilisateur"]["tmp_name"])){
+                            //récupére l'extension du fichier
+                            $ext = Utilitaire::getFileExtension($_FILES["image_utilisateur"]["name"]);
+                            //renommer le fichier
+                            $name_image = uniqid().$ext;
+                            //remplace la variable image
+                            $image = "./Public/asset/images/".$name_image;
+                            //déplacer le fichier
+                            move_uploaded_file($_FILES["image_utilisateur"]["tmp_name"],
+                            $image);
+                        }
+                        //setter les valeurs dans l'objet Utilisateur
+                        $this->setNom($nom);
+                        $this->setPrenom($prenom);
+                        $this->setPassword($hash);
+                        $this->setImage($image);
+                        $this->getRole()->setId(1);
+                        //ajouter en bdd
+                        $this->insertUtilisateur();
+                        $error = "Le compte a été ajouté en BDD";
+                    }
+                    //test le compte existe
+                    else {
+                        $error = "Les informations d'inscription sont incorrectes";
+                    }
                 }
                 //cas les mots de passe sont différents
                 else{
@@ -46,10 +62,6 @@ class UtilisateurController extends Utilisateur{
                 $error = "Veuillez remplir tous les champs du formulaire";
             }
         }
-
-
-
-
         Template::render('navbar.php', 'Inscription', 'vueAddUser.php', 'footer.php', 
         $error, [], ['main.css']);
     }

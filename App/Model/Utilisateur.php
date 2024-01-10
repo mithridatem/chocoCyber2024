@@ -92,7 +92,7 @@ class Utilisateur extends BddConnect{
             die('Error : '.$e->getMessage());
         }
     }
-    public function getUtilisateurByMail(): ?Utilisateur{
+    public function getUtilisateurByMail(): Utilisateur|bool{
         try {
             $mail = $this->mail_utilisateur;
             $requete = $this->connexion()->prepare('SELECT id_utilisateur,nom_utilisateur,prenom_utilisateur
