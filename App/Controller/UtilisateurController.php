@@ -30,7 +30,7 @@ class UtilisateurController extends Utilisateur{
                             //récupére l'extension du fichier
                             $ext = Utilitaire::getFileExtension($_FILES["image_utilisateur"]["name"]);
                             //renommer le fichier
-                            $name_image = uniqid().$ext;
+                            $name_image = uniqid().".".$ext;
                             //remplace la variable image
                             $image = "./Public/asset/images/".$name_image;
                             //déplacer le fichier
