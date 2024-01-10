@@ -18,6 +18,9 @@
         case '/choco2024/':
             $homeController->getHome();
             break;
+        case '/choco2024/utilisateur/add':
+            $utilisateurController->addUtilisateur();
+            break;
         default:
             $homeController->get404();
             break;

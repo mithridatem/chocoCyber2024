@@ -65,4 +65,31 @@ class Utilisateur extends BddConnect{
     public function setRole(?Roles $role){
         $this->role = $role;
     }
+    //Méthodes
+    public function insertUtilisateur(): void {
+        try {
+            //Récupération des données
+            $nom = $this->nom_utilisateur;
+            $prenom = $this->prenom_utilisateur;
+            $mail = $this->mail_utilisateur;
+            $password = $this->password_utilisateur;
+            $image = $this->image_utilisateur;
+            $id_roles = $this->role->getId();
+            //Requête SQL
+            $requete = $this->connexion()->prepare('INSERT INTO utilisateur(
+                nom_utilisateur,prenom_utilisateur,mail_utilisateur,password_utilisateur,image_utilisateur,id_roles
+                ) VALUE(?,?,?,?,?,?)'
+            );
+            $requete->bindParam(1,$nom,\PDO::PARAM_STR);
+            $requete->bindParam(2,$prenom,\PDO::PARAM_STR);
+            $requete->bindParam(3,$mail,\PDO::PARAM_STR);
+            $requete->bindParam(4,$password,\PDO::PARAM_STR);
+            $requete->bindParam(5,$image,\PDO::PARAM_STR);
+            $requete->bindParam(6,$id_roles,\PDO::PARAM_INT);
+            $requete->execute();
+        } 
+        catch (\Exception $e) {
+            die('Error : '.$e->getMessage());
+        }
+    }
 }
