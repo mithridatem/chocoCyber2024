@@ -22,4 +22,3 @@
             $homeController->get404();
             break;
     }
-?>
