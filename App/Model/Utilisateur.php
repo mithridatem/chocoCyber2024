@@ -62,7 +62,7 @@ class Utilisateur extends BddConnect{
     public function getRole(): ?Roles {
         return $this->role;
     }
-    public function setRole(?Roles $role){
+    public function setRole(?Roles $role): void{
         $this->role = $role;
     }
     //Méthodes
@@ -91,5 +91,23 @@ class Utilisateur extends BddConnect{
         catch (\Exception $e) {
             die('Error : '.$e->getMessage());
         }
+    }
+    public function getUtilisateurByMail(): ?Utilisateur{
+        try {
+            $mail = $this->mail_utilisateur;
+            $requete = $this->connexion()->prepare('SELECT id_utilisateur,nom_utilisateur,prenom_utilisateur
+            ,mail_utilisateur,password_utilisateur,image_utilisateur FROM utilisateur
+            WHERE mail_utilisateur = ?');
+            $requete->bindParam(1,$mail, \PDO::PARAM_STR);
+            $requete->execute();
+            $requete->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, Utilisateur::class);
+            return $requete->fetch();
+        } 
+        catch (\Exception $e) {
+            die('Error : '.$e->getMessage());
+        }
+    }
+    public function __toString(): string {
+        return $this->nom_utilisateur;
     }
 }

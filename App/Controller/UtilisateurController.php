@@ -29,6 +29,8 @@ class UtilisateurController extends Utilisateur{
                     $this->setPassword($hash);
                     $this->setImage($image);
                     $this->getRole()->setId(1);
+                    $recup = $this->getUtilisateurByMail();
+                    dd($recup);
                     //ajouter en bdd
                     $this->insertUtilisateur();
                     //afficher un message
