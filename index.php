@@ -16,16 +16,16 @@
     //routeur connecté
     if(isset($_SESSION["connected"])){
         switch ($path) {
-            case '/choco2024/':
+            case '/chocoCyber2024/':
                 $homeController->getHome();
                 break;
-            case '/choco2024/utilisateur/add':
+            case '/chocoCyber2024/utilisateur/add':
                 $homeController->getHome();
                 break;
-            case '/choco2024/utilisateur/connexion':
+            case '/chocoCyber2024/utilisateur/connexion':
                 $homeController->getHome();
                 break;
-            case '/choco2024/utilisateur/deconnexion':
+            case '/chocoCyber2024/utilisateur/deconnexion':
                 $utilisateurController->deconnexionUtilisateur();
                 break;
             default:
@@ -36,16 +36,16 @@
     //routeur déconnecté
     else{
         switch ($path) {
-            case '/choco2024/':
+            case '/chocoCyber2024/':
                 $homeController->getHome();
                 break;
-            case '/choco2024/utilisateur/add':
+            case '/chocoCyber2024/utilisateur/add':
                 $utilisateurController->addUtilisateur();
                 break;
-            case '/choco2024/utilisateur/connexion':
+            case '/chocoCyber2024/utilisateur/connexion':
                 $utilisateurController->connexionUtilisateur();
                 break;
-            case '/choco2024/utilisateur/deconnexion':
+            case '/chocoCyber2024/utilisateur/deconnexion':
                 $homeController->getHome();
                 break;
             default:
