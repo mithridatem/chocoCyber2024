@@ -92,7 +92,7 @@ class UtilisateurController extends Utilisateur{
                         $_SESSION["id"] = $recup->getId();
                         $error = "Connecté";
                         //redirection
-                        header("Refresh:1; url=/choco2024");
+                        header("Refresh:1; url=/chocoCyber2024");
                     }
                     //test si le password est invalide
                     else {
@@ -114,6 +114,6 @@ class UtilisateurController extends Utilisateur{
     public function deconnexionUtilisateur(): void {
         session_destroy();
         unset($_COOKIE["PHPSESSID"]);
-        header("location:/choco2024");
+        header("location:/chocoCyber2024");
     }
 }
