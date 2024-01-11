@@ -13,13 +13,43 @@
     $url = parse_url($_SERVER['REQUEST_URI']);
     //test si l'url posséde une route sinon on renvoi à la racine
     $path = isset($url['path']) ? $url['path'] : '/';
-    //routeur
-    switch ($path) {
-        case '/choco2024/':
-            $homeController->getHome();
-            break;
-        default:
-            $homeController->get404();
-            break;
+    //routeur connecté
+    if(isset($_SESSION["connected"])){
+        switch ($path) {
+            case '/chocoCyber2024/':
+                $homeController->getHome();
+                break;
+            case '/chocoCyber2024/utilisateur/add':
+                $homeController->getHome();
+                break;
+            case '/chocoCyber2024/utilisateur/connexion':
+                $homeController->getHome();
+                break;
+            case '/chocoCyber2024/utilisateur/deconnexion':
+                $utilisateurController->deconnexionUtilisateur();
+                break;
+            default:
+                $homeController->get404();
+                break;
+        }
     }
-?>
+    //routeur déconnecté
+    else{
+        switch ($path) {
+            case '/chocoCyber2024/':
+                $homeController->getHome();
+                break;
+            case '/chocoCyber2024/utilisateur/add':
+                $utilisateurController->addUtilisateur();
+                break;
+            case '/chocoCyber2024/utilisateur/connexion':
+                $utilisateurController->connexionUtilisateur();
+                break;
+            case '/chocoCyber2024/utilisateur/deconnexion':
+                $homeController->getHome();
+                break;
+            default:
+                $homeController->get404();
+                break;
+        }
+    }

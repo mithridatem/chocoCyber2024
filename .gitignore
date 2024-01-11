@@ -1,0 +1,6 @@
+env.php
+*.jpeg
+*.png
+*.jpg
+*.bmp
+/vendor/
